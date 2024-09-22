@@ -6,6 +6,11 @@
 
 # General application configuration
 import Config
+# Dotenv.load
+
+# config :router_controller_web,
+#   base_url: System.get_env("BASE_URL")
+
 
 config :router_controller,
   ecto_repos: [RouterController.Repo],
