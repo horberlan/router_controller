@@ -4,10 +4,10 @@ defmodule RouterController.Application do
   @moduledoc false
 
   use Application
-
   @impl true
   def start(_type, _args) do
-    Dotenv.load
+    Dotenv.load()
+
     children = [
       RouterControllerWeb.Telemetry,
       RouterController.Repo,
