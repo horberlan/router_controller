@@ -4,11 +4,21 @@ defmodule RouterControllerWeb.RedirectController do
   def index(conn, %{"user_name" => user_name}) do
     base_url = Application.get_env(:router_controller_web, :base_url)
 
+    if user_name in [nil, ""] do
+      conn
+      |> put_status(:bad_request)
+      |> json(%{error: "Missing 'user_name' parameter"})
+    else
+      conn
+      |> put_session(:user_data, user_name)
+      |> redirect(external: "#{base_url}/#{user_name}")
+    end
+  end
+
+  def index(conn, _params) do
     conn
-    |> put_session(:user_data, "#{user_name}")
-    |> redirect(external:  "#{base_url}/#{user_name}")
-    conn
-    |> send_resp(400, "Parâmetro 'user_data' não foi fornecido.")
+    |> put_status(:bad_request)
+    |> json(%{error: "Missing 'user_name' parameter"})
   end
 
   def page(conn, _params) do
