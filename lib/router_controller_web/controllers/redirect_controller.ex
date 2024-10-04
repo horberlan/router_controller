@@ -2,7 +2,7 @@ defmodule RouterControllerWeb.RedirectController do
   use RouterControllerWeb, :controller
 
   def index(conn, _params) do
-    base_url = Application.get_env(:router_controller_web, :base_url, "http://localhost:3000")
+    base_url = Application.get_env(:router_controller_web, :base_url)
 
     data = %{user_data: "value"}
 
@@ -13,7 +13,7 @@ defmodule RouterControllerWeb.RedirectController do
 
   def page(conn, _params) do
     base_url_for_page =
-      Application.get_env(:router_controller_web, :base_url_for_page, "http://localhost:5173")
+      Application.get_env(:router_controller_web, :base_url_for_page)
 
     data = %{user_data: "value"}
 
