@@ -29,6 +29,10 @@ config :router_controller, RouterControllerWeb.Endpoint,
     tailwind: {Tailwind, :install_and_run, [:router_controller, ~w(--watch)]}
   ]
 
+config :router_controller_web,
+  base_url: "http://localhost:3000",
+  base_url_for_page: "http://localhost:5173"
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed

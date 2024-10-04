@@ -1,14 +1,34 @@
 defmodule RouterControllerWeb.RedirectController do
   use RouterControllerWeb, :controller
 
+  def index(conn, %{"user_name" => user_name}) do
+    base_url = Application.get_env(:router_controller_web, :base_url)
+
+    if String.trim(user_name) == "" do
+      conn
+      |> put_status(:bad_request)
+      |> json(%{error: "Missing 'user_name' parameter"})
+    else
+      conn
+      |> put_session(:user_data, user_name)
+      |> redirect(external: "#{base_url}/#{user_name}")
+    end
+  end
+
   def index(conn, _params) do
-    base_url = Application.get_env(:router_controller_web, :base_url, "http://localhost:3000")
-    redirect(conn, external: "#{base_url}?data=#{URI.encode_query(%{key: "value"})}")
+    conn
+    |> put_status(:bad_request)
+    |> json(%{error: "Missing 'user_name' parameter"})
   end
 
   def page(conn, _params) do
-    # If you want a different base_url for this function, you can set another environment variable
-    base_url = Application.get_env(:router_controller_web, :base_url_for_page, "http://localhost:5173")
-    redirect(conn, external: "#{base_url}?data=#{URI.encode_query(%{key: "value"})}")
+    base_url_for_page =
+      Application.get_env(:router_controller_web, :base_url_for_page)
+
+    data = %{user_data: "value"}
+
+    conn
+    |> put_session(:user_data, "value")
+    |> redirect(external: "#{base_url_for_page}?#{URI.encode_query(data)}")
   end
 end
