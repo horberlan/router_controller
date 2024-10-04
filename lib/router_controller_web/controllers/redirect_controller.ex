@@ -4,7 +4,7 @@ defmodule RouterControllerWeb.RedirectController do
   def index(conn, %{"user_name" => user_name}) do
     base_url = Application.get_env(:router_controller_web, :base_url)
 
-    if user_name in [nil, ""] do
+    if String.trim(user_name) == "" do
       conn
       |> put_status(:bad_request)
       |> json(%{error: "Missing 'user_name' parameter"})
